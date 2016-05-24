@@ -18,8 +18,10 @@ Application URL: [http://ec2-52-38-19-193.us-west-2.compute.amazonaws.com/](http
 
 ### 1 - SSH access to the Udacity Development Environment  
 
-Launch personal Virtual Machine with personal Udacity Account  
+Launch personal Virtual Machine with personal Udacity Account
+
 1. Download private key
+
 2. Move the private key file into the folder ~/.ssh (where ~ is the environment's home directory)
 
         mv ~/Downloads/udacity_key.rsa ~/.ssh/
@@ -37,105 +39,113 @@ Launch personal Virtual Machine with personal Udacity Account
 
 ### 2 - User Management & Security  
 1. Create a new user name **grader**  
-  ```
-    adduser grader
-  ```  
-2. Add **grader** to sudoers  
-Create a new file called 'grader' in /etc/sudoers.d/  
-```
-    vim /etc/sudoers.d/grader
-```  
-In the file put in: `grader ALL=(ALL) NOPASSWD:ALL` Save and quit with `wq`.  
+
+        adduser grader
+
+2. Add **grader** to sudoers
+
+ Create a new file called 'grader' in /etc/sudoers.d/  
+
+        vim /etc/sudoers.d/grader
+
+  In the file put in: `grader ALL=(ALL) NOPASSWD:ALL` Save and quit with `wq`.  
+
 3. Configure to use ssh key for grader to log in.  
   In the Develop Environment, create a new folder `.ssh` in `/home/grader/`  
-```
-    mkdir /home/grader/.ssh
-```  
-Create a new file `authorized_keys` to store public key  
-Create a ssh key for grader to log in own computer terminal, generate key pairs locally  
-```
-    ssh-keygen
-```  
-Save the key in `uda_id_rsa` file on local computer.  
-Copy the content of public key file `uda_id_rsa.pub` to `/home/grader/.ssh/authorized_keys` file.  
-Change permision of the directory/file  
-```
-    chmod 700 /home/grader/.ssh
-    chmod 644 /home/grader/.ssh/authorized_keys
-```
-Change owner of the directory/file to `grader`  
-```
-    chown grader /home/grader/.ssh
-    chown grader /home/grader/.ssh/authorized_keys
-```  
-Change group of the directory/file to `grader`  
-```
-    chgrp grader /home/grader/.ssh
-    chgrp grader /home/grader/.ssh/authorized_keys
-```  
+
+        mkdir /home/grader/.ssh
+
+ Create a new file `authorized_keys` to store public key  
+
+ Create a ssh key for grader to log in own computer terminal, generate key pairs locally  
+
+        ssh-keygen
+
+ Save the key in `uda_id_rsa` file on local computer.  
+
+ Copy the content of public key file `uda_id_rsa.pub` to `/home/grader/.ssh/authorized_keys` file.
+
+ Change permision of the directory/file  
+
+        chmod 700 /home/grader/.ssh
+        chmod 644 /home/grader/.ssh/authorized_keys
+
+ Change owner of the directory/file to `grader`  
+
+        chown grader /home/grader/.ssh
+        chown grader /home/grader/.ssh/authorized_keys
+
+ Change group of the directory/file to `grader`  
+
+        chgrp grader /home/grader/.ssh
+        chgrp grader /home/grader/.ssh/authorized_keys
+
 4. Change the SSH port from 22 to 2200  
-Edit configue file  
-```
+
+ Edit configue file  
+
 		vim /etc/ssh/sshd-config
-```  
-In hte file, change the `Port 22` to  `Port 2200`  
-Restart ssh service  
-```
+
+ In hte file, change the `Port 22` to  `Port 2200`  
+
+ Restart ssh service  
+
 		service sshd restart
-```  
+
 5. log in with `grader`and ssh method  
-```
+
     ssh -i ~/.ssh/uda_id_rsa grader@52.38.19.193 -p 2200
-```  
+
+
 #### Reference:
 [Udacity Class](https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089477)  
 
 ### 3 - Update all currently installed packages  
 1. Update package source list:  
-```
-    sudo apt-get update
-```  
+
+        sudo apt-get update
+
 
 2. Upgrade all the application:  
-```
-    sudo apt-get upgrade
-```  
+
+        sudo apt-get upgrade
+
 
 ### 4 - Configure the local timezone to UTC  
-Open time configuration dialog and set it to UTC  
-```
-    sudo dpkg-reconfigure tzdata
-```  
+ Open time configuration dialog and set it to UTC
+
+        sudo dpkg-reconfigure tzdata
 
 #### Reference:
  [UbuntuTime](https://help.ubuntu.com/community/UbuntuTime)  
 
 ### 5 - Configure the Uncomplicated Firewall(UFW)  
+
 1. Disable all incoming connections and allow all outgoing connections  
-```
-    sudo ufw default deny incoming
-    sudo ufw default allow outgoing
-```  
+
+        sudo ufw default deny incoming
+        sudo ufw default allow outgoing
+
 
 2. Allow incoming connections for SSH (port 2200)  
-```
-		sudo ufw allow 2200/tcp
-```  
+
+        sudo ufw allow 2200/tcp
+
 
 3. Allow incoming connections for HTTP (port 80)  
-```
-		sudo ufw allow www
-```  
+
+        sudo ufw allow www
+
 
 4. Allow incoming connections for NTP (port 123)  
-```
-		sudo ufw allow ntp
-```  
+
+        sudo ufw allow ntp
+
 
 5. Eable the ufw  
-```
-		sudo ufw enable
-```  
+
+        sudo ufw enable
+
 
 #### Reference:  
 [Udacity Class](https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089477)  
