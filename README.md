@@ -19,17 +19,17 @@ Launch personal Virtual Machine with personal Udacity Account
 2. Move the private key file into the folder ~/.ssh (where ~ is the environment's home directory)  
   ```
     mv ~/Downloads/udacity_key.rsa ~/.ssh/
-  ```
+    ```
 
 3. Open terminal and change private key file's permission, only for the owner read and write  
   ```
     chmod 600 ~/.ssh/udacity_key.rsa
-  ```
+    ```
 
 4. Log into the Development environment  
   ```
     ssh -i ~/.ssh/udacity_key.rsa root@52.38.19.193
-  ```
+    ```
 
 #### Reference:
 [Udacity](https://www.udacity.com/account#!/development_environment)  
@@ -201,7 +201,7 @@ using pip install virtualenv, and enable virtualenv
 
 Add these content:  
 ```  
-		<VirtualHost *:80>  
+	<VirtualHost *:80>  
         ServerName 52.38.19.193  
         ServerAdmin webmaster@localhost  
         ServerAlias ec2-52-38-19-193.us-west-2.compute.amazonaws.com  
