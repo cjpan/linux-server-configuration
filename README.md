@@ -12,90 +12,80 @@ Accessible SSH port: 2200
 Application URL: [http://ec2-52-38-19-193.us-west-2.compute.amazonaws.com/](http://ec2-52-38-19-193.us-west-2.compute.amazonaws.com/)  
 
 ## Configuration  
+
 ### 1 - SSH access to the Udacity Development Environment  
 Launch personal Virtual Machine with personal Udacity Account  
 1. Download private key  
 2. Move the private key file into the folder ~/.ssh (where ~ is the environment's home directory)  
-```
+  ```
     mv ~/Downloads/udacity_key.rsa ~/.ssh/
-```  
+  ```
 
 3. Open terminal and change private key file's permission, only for the owner read and write  
-```
+  ```
     chmod 600 ~/.ssh/udacity_key.rsa
-```
+  ```
 
 4. Log into the Development environment  
-```
+  ```
     ssh -i ~/.ssh/udacity_key.rsa root@52.38.19.193
-```
+  ```
 
 #### Reference:
 [Udacity](https://www.udacity.com/account#!/development_environment)  
 
 ### 2 - User Management & Security  
 1. Create a new user name **grader**  
-```
+  ```
     adduser grader
-```
-
+  ```  
 2. Add **grader** to sudoers  
-  Create a new file called 'grader' in /etc/sudoers.d/  
+Create a new file called 'grader' in /etc/sudoers.d/  
 ```
     vim /etc/sudoers.d/grader
 ```  
-
-  In the file put in: `grader ALL=(ALL) NOPASSWD:ALL` Save and quit with `wq`.  
-
+In the file put in: `grader ALL=(ALL) NOPASSWD:ALL` Save and quit with `wq`.  
 3. Configure to use ssh key for grader to log in.  
   In the Develop Environment, create a new folder `.ssh` in `/home/grader/`  
 ```
     mkdir /home/grader/.ssh
 ```  
-
-  Create a new file `authorized_keys` to store public key  
-  Create a ssh key for grader to log in own computer terminal, generate key pairs locally  
+Create a new file `authorized_keys` to store public key  
+Create a ssh key for grader to log in own computer terminal, generate key pairs locally  
 ```
     ssh-keygen
 ```  
-
-  Save the key in `uda_id_rsa` file on local computer.  
-  Copy the content of public key file `uda_id_rsa.pub` to `/home/grader/.ssh/authorized_keys` file.  
-  Change permision of the directory/file  
+Save the key in `uda_id_rsa` file on local computer.  
+Copy the content of public key file `uda_id_rsa.pub` to `/home/grader/.ssh/authorized_keys` file.  
+Change permision of the directory/file  
 ```
     chmod 700 /home/grader/.ssh
     chmod 644 /home/grader/.ssh/authorized_keys
 ```
-
-  Change owner of the directory/file to `grader`  
+Change owner of the directory/file to `grader`  
 ```
     chown grader /home/grader/.ssh
     chown grader /home/grader/.ssh/authorized_keys
 ```  
-
-  Change group of the directory/file to `grader`  
+Change group of the directory/file to `grader`  
 ```
     chgrp grader /home/grader/.ssh
     chgrp grader /home/grader/.ssh/authorized_keys
 ```  
-
 4. Change the SSH port from 22 to 2200  
-	Edit configue file  
+Edit configue file  
 ```
 		vim /etc/ssh/sshd-config
 ```  
-
-	In hte file, change the `Port 22` to  `Port 2200`  
-	Restart ssh service  
+In hte file, change the `Port 22` to  `Port 2200`  
+Restart ssh service  
 ```
 		service sshd restart
 ```  
-
 5. log in with `grader`and ssh method  
 ```
     ssh -i ~/.ssh/uda_id_rsa grader@52.38.19.193 -p 2200
 ```  
-
 #### Reference:
 [Udacity Class](https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089477)  
 
