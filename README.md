@@ -151,124 +151,113 @@ Launch personal Virtual Machine with personal Udacity Account
 [Udacity Class](https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089477)  
 
 ### 6 - Install Apache, mod_wsgi application, Git  
+
 1. Install  Apache  
-```
-		sudo apt-get install apache2
-```  
+
+        sudo apt-get install apache2
 
 2. Install mod_wsgi  
-```
-		sudo apt-get install libapache2-mod-wsgi
-```  
+
+        sudo apt-get install libapache2-mod-wsgi
+
 
 3. Install git  
-```
-		sudo apt-get install git
-```  
+
+        sudo apt-get install git
+
 
 ### 7 - Configure Apache to serve a Python mod_wsgi application  
+
 1. Clone **Catalog** repo from Github in home direcory:  
-```
-		git clone https://github.com/cjpan/fullstack-nanodegree-vm.git
-```  
 
-link the repo in `/var/www/`  
-```
-    sudo ln -s ~/fullstack-nanodegree-vm /var/www/CatalogApp
-```  
+        git clone https://github.com/cjpan/fullstack-nanodegree-vm.git
 
-2. To make .git directory is not publicly accessible via a browser. Create a .htaccess file in the .git folder and put the following in this file:  
-```
-		RedirectMatch 404 /\.git
-```  
+ link the repo in `/var/www/`  
+
+        sudo ln -s ~/fullstack-nanodegree-vm /var/www/CatalogApp
+
+2. To make .git directory is not publicly accessible via a browser. Create a `.htaccess` file in the .git folder and put the following in this file:  
+
+        RedirectMatch 404 /\.git
 
 3. Make the `project.py` file name to `__init__.py`    
 
 4. Install pip , virtualenv (in /var/www/Catalog)  
-```
-		sudo apt-get install python-pip
-```  
 
-using pip install virtualenv, and enable virtualenv  
-```
-		sudo pip install virtualenv   
-		sudo virtualenv venv  
-		source venv/bin/activate  
-```  
+        sudo apt-get install python-pip
+
+ using pip install virtualenv, and enable virtualenv  
+
+        sudo pip install virtualenv   
+        sudo virtualenv venv  
+        source venv/bin/activate  
 
 5. Using pip install following nessary packages  
-```  
-		sudo pip install Flask  
-		sudo pip install oauth2client  
-		sudo pip install requests  
-		sudo pip install httplib2  
-    sudo pip install flask-httpauth  
-```  
+
+        sudo pip install Flask  
+        sudo pip install oauth2client  
+        sudo pip install requests  
+        sudo pip install httplib2  
+        sudo pip install flask-httpauth  
 
 6. Configure and Enable a New Virtual Host  
-```  
-		sudo vim /etc/apache2/sites-available/Catalog.conf  
-```  
 
-Add these content:  
-```  
-	<VirtualHost *:80>  
-        ServerName 52.38.19.193  
-        ServerAdmin webmaster@localhost  
-        ServerAlias ec2-52-38-19-193.us-west-2.compute.amazonaws.com  
-        ErrorLog ${APACHE_LOG_DIR}/error.log  
-        CustomLog ${APACHE_LOG_DIR}/access.log combined  
-        #Include conf-available/serve-cgi-bin.conf  
-        WSGIScriptAlias / /var/www/CatalogApp/vagrant/catalog.wsgi  
-        <Directory /var/www/CatalogApp/vagrant/Catalog/>  
-            Order allow,deny  
-            Allow from all  
-        </Directory>  
-        Alias /static /var/www/CatalogApp/vagrant/Catalog/static  
-        <Directory /var/www/CatalogApp/vagrant/Catalog/static/>  
-            Order allow,deny  
-            Allow from all  
-        </Directory>  
-		</VirtualHost>  
-```  
+        sudo vim /etc/apache2/sites-available/Catalog.conf  
 
-Enble  virtual host:  
-```  
-		sudo a2ensite Catalog  
-```  
+ Add these content:  
+
+        <VirtualHost *:80>  
+            ServerName 52.38.19.193  
+            ServerAdmin webmaster@localhost  
+            ServerAlias ec2-52-38-19-193.us-west-2.compute.amazonaws.com  
+            ErrorLog ${APACHE_LOG_DIR}/error.log  
+            CustomLog ${APACHE_LOG_DIR}/access.log combined  
+            #Include conf-available/serve-cgi-bin.conf  
+            WSGIScriptAlias / /var/www/CatalogApp/vagrant/catalog.wsgi  
+            <Directory /var/www/CatalogApp/vagrant/Catalog/>  
+                Order allow,deny  
+                Allow from all  
+            </Directory>  
+            Alias /static /var/www/CatalogApp/vagrant/Catalog/static  
+            <Directory /var/www/CatalogApp/vagrant/Catalog/static/>  
+                Order allow,deny  
+                Allow from all  
+            </Directory>  
+        </VirtualHost>  
+
+ Enble  virtual host:  
+
+        sudo a2ensite Catalog  
 
 7. Create the .wsgi File  
-Create a file named `catalog.wsgi` with following commands:  
-```  
-		cd /var/www/CatalogApp/vagrant/  
-		sudo vim catalog.wsgi  
-```  
+ Create a file named `catalog.wsgi` with following commands:  
 
-Add these content:  
-```  
-		#!/usr/bin/python  
-		import sys  
-		import logging  
-		logging.basicConfig(stream=sys.stderr)  
-		sys.path.insert(0,"/var/www/CatalogApp/vagrant/")  
+        cd /var/www/CatalogApp/vagrant/  
+        sudo vim catalog.wsgi  
 
-		from Catalog import app as application  
-		application.secret_key = 'super_secret_key'  
-    application.debut = True  
-```  
+ Add these content:  
 
-Right now my directory tree(In the /var/www/):  
-```  
-		CatalogApp  
-		--vagrant  
-		----catalog.wsgi  
-		----Catalog  
-		------static  
-		------__init__.py  
-```  
+        #!/usr/bin/python  
+        import sys  
+        import logging  
+        logging.basicConfig(stream=sys.stderr)  
+        sys.path.insert(0,"/var/www/CatalogApp/vagrant/")
+
+        from Catalog import app as application  
+        application.secret_key = 'super_secret_key'  
+        application.debut = True   
+
+ Right now my directory tree(In the /var/www/):  
+
+        CatalogApp  
+        --vagrant  
+        ----catalog.wsgi  
+        ----Catalog  
+        ------static  
+        ------__init__.py  
 
 8. Some changes in python file:  
-	- In the `__init__.py` change the client_secrets.json to absolute path  
+ - In the `__init__.py` change the client_secrets.json to absolute path  
 
   - In Google developer console, add javascript origins  `http://ec2-52-38-19-193.us-west-2.compute.amazonaws.com/` and `http://52.38.19.193`  
 
@@ -278,71 +267,64 @@ Right now my directory tree(In the /var/www/):
 [Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps)   
 [Udacity discussion](https://discussions.udacity.com/t/cant-find-image/43142/2)   
 
-### 8 - Install and configure PostgreSQL  
+### 8 - Install and configure PostgreSQL
+
 1. Install PostgreSQL  
-```  
-		sudo apt-get install postgresql postgresql-contrib  
-```  
+
+        sudo apt-get install postgresql postgresql-contrib  
 
 2. Do not allow remote connections  
-	in the `/etc/postgresql/9.1/main/pg_hba.conf` configure file, the default setting has already disabled remote connections  
+ in the `/etc/postgresql/9.1/main/pg_hba.conf` configure file, the default setting has already disabled remote connections  
 
 3. Add a new user named catalog  
-```  
-		sudo adduser catalog  
-```  
+
+        sudo adduser catalog  
 
 4. Log into PostgreSQL  
-```  
-		sudo su - postgres  
-		psql  
-```  
+
+        sudo su - postgres  
+        psql  
 
 5. Create a new role and grant the role to create database  
-```  
-		CREATE ROLE catalog WITH CREATEDB;  
-		ALTER USER catalog WITH PASSWORD pass;  
-    ALTER USER catalog CREATEDB;  
-```  
 
-using `\du` can see the roles list  
+        CREATE ROLE catalog WITH CREATEDB;  
+        ALTER USER catalog WITH PASSWORD pass;  
+        ALTER USER catalog CREATEDB;  
+
+ using `\du` can see the roles list  
 
 6. Create database  
-```  
-		CREATE DATABASE catalog WITH OWNER catalog;  
-```  
+
+        CREATE DATABASE catalog WITH OWNER catalog;  
 
 7.  Connect to the database and lock down the permissions to only let "access_role" create tables  
-```  
-		\c catalog  
-		REVOKE ALL ON SCHEMA public FROM public;  
-		GRANT ALL ON SCHEMA public TO access_role;  
-```  
 
-Finally press `Control`+`D` to quit  
+        \c catalog  
+        REVOKE ALL ON SCHEMA public FROM public;  
+        GRANT ALL ON SCHEMA public TO access_role;  
+
+ Finally press `Control`+`D` to quit  
 
 #### Reference:  
 [Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps)   
 [Udacity discussion](https://discussions.udacity.com/t/using-postgresql-instead-of-sqlite/13575/11)  
 
 ### 9 - Make the app run  
+
 1. Go to the Catalog app directory  
-```  
-		cd /var/www/CatalogApp/vagrant/  
-```  
+
+        cd /var/www/CatalogApp/vagrant/  
 
 2. Edit the `__init__.py`, `lotsofitems.py` and `database_setup.py` file:  
-	Change `engine = create_engine('sqlite:///categoryitems.db')` to `engine = create_engine('postgresql://catalog:pass@localhost/catalog')`  
+ Change `engine = create_engine('sqlite:///categoryitems.db')` to `engine = create_engine('postgresql://catalog:pass@localhost/catalog')`  
 
 3. Install python-psycopg2  
-```  
-    sudo apt-get install psysopg2  
-```  
 
-4. Restart Apache  
-```  
-		sudo service apache2 restart  
-```  
+        sudo apt-get install psysopg2  
+
+4. Restart Apache   
+
+        sudo service apache2 restart  
 
 Now can visit the page thourgh <http://ec2-52-38-19-193.us-west-2.compute.amazonaws.com/>.  
 
