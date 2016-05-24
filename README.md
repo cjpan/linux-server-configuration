@@ -6,25 +6,29 @@ Udacity FSND Project5
 
 The application deployed is the **Catalog**, previously developed for [Project 3](https://github.com/cjpan/fullstack-nanodegree-vm/tree/master/vagrant/catalog).
 
-## Overview info  
+## Overview info
+
 IP address: 52.38.19.193  
+
 Accessible SSH port: 2200  
+
 Application URL: [http://ec2-52-38-19-193.us-west-2.compute.amazonaws.com/](http://ec2-52-38-19-193.us-west-2.compute.amazonaws.com/)  
 
 ## Configuration  
 
 ### 1 - SSH access to the Udacity Development Environment  
+
 Launch personal Virtual Machine with personal Udacity Account  
-1. Download private key  
-2. Move the private key file into the folder ~/.ssh (where ~ is the environment's home directory)  
+1. Download private key
+2. Move the private key file into the folder ~/.ssh (where ~ is the environment's home directory)
 
         mv ~/Downloads/udacity_key.rsa ~/.ssh/
 
-3. Open terminal and change private key file's permission, only for the owner read and write  
+3. Open terminal and change private key file's permission, only for the owner read and write
 
         chmod 600 ~/.ssh/udacity_key.rsa
 
-4. Log into the Development environment  
+4. Log into the Development environment
 
         ssh -i ~/.ssh/udacity_key.rsa root@52.38.19.193
 
