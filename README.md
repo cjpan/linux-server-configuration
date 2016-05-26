@@ -44,58 +44,55 @@ Launch personal Virtual Machine with personal Udacity Account
 
 2. Add **grader** to sudoers
 
- Create a new file called 'grader' in /etc/sudoers.d/  
+     Create a new file called 'grader' in /etc/sudoers.d/  
 
         vim /etc/sudoers.d/grader
 
-  In the file put in: `grader ALL=(ALL) NOPASSWD:ALL` Save and quit with `wq`.  
+     In the file put in: `grader ALL=(ALL) NOPASSWD:ALL` Save and quit with `wq`.  
 
 3. Configure to use ssh key for grader to log in.  
-  In the Develop Environment, create a new folder `.ssh` in `/home/grader/`  
+  In the Develop Environment, copy the folder of `/root/.ssh` to `/home/grader/`, then I can use the downloaded keys for `grader` also.
 
-        mkdir /home/grader/.ssh
+        cp -r /root/.ssh /home/grader/.ssh
 
- Create a new file `authorized_keys` to store public key  
-
- Create a ssh key for grader to log in own computer terminal, generate key pairs locally  
-
-        ssh-keygen
-
- Save the key in `uda_id_rsa` file on local computer.  
-
- Copy the content of public key file `uda_id_rsa.pub` to `/home/grader/.ssh/authorized_keys` file.
-
- Change permision of the directory/file  
+   Change permision of the directory/file
 
         chmod 700 /home/grader/.ssh
         chmod 644 /home/grader/.ssh/authorized_keys
 
- Change owner of the directory/file to `grader`  
+   Change owner of the directory/file to `grader`  
 
         chown grader /home/grader/.ssh
         chown grader /home/grader/.ssh/authorized_keys
 
- Change group of the directory/file to `grader`  
+   Change group of the directory/file to `grader`  
 
         chgrp grader /home/grader/.ssh
         chgrp grader /home/grader/.ssh/authorized_keys
 
 4. Change the SSH port from 22 to 2200  
 
- Edit configue file  
+   Edit configue file  
 
 		vim /etc/ssh/sshd-config
 
- In hte file, change the `Port 22` to  `Port 2200`  
+   In hte file, change the `Port 22` to  `Port 2200`  
 
- Restart ssh service  
+   Restart ssh service  
 
 		service sshd restart
 
 5. log in with `grader`and ssh method  
 
-    ssh -i ~/.ssh/uda_id_rsa grader@52.38.19.193 -p 2200
+        ssh -i ~/.ssh/uda_id_rsa grader@52.38.19.193 -p 2200
 
+6. Disable remote login of the root user  
+   Edit `/etc/ssh/sshd_config` file
+
+        sudo vim /etc/ssh/sshd-config
+
+    In the file, change `PermitRootLogin without-password` to `PermitRootLogin no`.  
+    Verify login with root will fails with "Permission denied", which means the root remote login is disabled.
 
 #### Reference:
 [Udacity Class](https://www.udacity.com/course/viewer#!/c-ud299-nd/l-4331066009/m-4801089477)  
@@ -172,7 +169,7 @@ Launch personal Virtual Machine with personal Udacity Account
 
         git clone https://github.com/cjpan/fullstack-nanodegree-vm.git
 
- link the repo in `/var/www/`  
+   link the repo in `/var/www/`  
 
         sudo ln -s ~/fullstack-nanodegree-vm /var/www/CatalogApp
 
@@ -186,7 +183,7 @@ Launch personal Virtual Machine with personal Udacity Account
 
         sudo apt-get install python-pip
 
- using pip install virtualenv, and enable virtualenv  
+   using pip install virtualenv, and enable virtualenv  
 
         sudo pip install virtualenv   
         sudo virtualenv venv  
@@ -204,7 +201,7 @@ Launch personal Virtual Machine with personal Udacity Account
 
         sudo vim /etc/apache2/sites-available/Catalog.conf  
 
- Add these content:  
+   Add these content:  
 
         <VirtualHost *:80>  
             ServerName 52.38.19.193  
@@ -225,7 +222,7 @@ Launch personal Virtual Machine with personal Udacity Account
             </Directory>  
         </VirtualHost>  
 
- Enble  virtual host:  
+   Enble  virtual host:  
 
         sudo a2ensite Catalog  
 
@@ -235,7 +232,7 @@ Launch personal Virtual Machine with personal Udacity Account
         cd /var/www/CatalogApp/vagrant/  
         sudo vim catalog.wsgi  
 
- Add these content:  
+   Add these content:  
 
         #!/usr/bin/python  
         import sys  
@@ -247,7 +244,7 @@ Launch personal Virtual Machine with personal Udacity Account
         application.secret_key = 'super_secret_key'  
         application.debut = True   
 
- Right now my directory tree(In the /var/www/):  
+   Right now my directory tree(In the /var/www/):  
 
         CatalogApp  
         --vagrant  
@@ -291,7 +288,7 @@ Launch personal Virtual Machine with personal Udacity Account
         ALTER USER catalog WITH PASSWORD pass;  
         ALTER USER catalog CREATEDB;  
 
- using `\du` can see the roles list  
+   using `\du` can see the roles list  
 
 6. Create database  
 
@@ -303,7 +300,7 @@ Launch personal Virtual Machine with personal Udacity Account
         REVOKE ALL ON SCHEMA public FROM public;  
         GRANT ALL ON SCHEMA public TO access_role;  
 
- Finally press `Control`+`D` to quit  
+   Finally press `Control`+`D` to quit  
 
 #### Reference:  
 [Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps)   
