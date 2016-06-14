@@ -8,11 +8,11 @@ The application deployed is the **Catalog**, previously developed for [Project 3
 
 ## Overview info
 
-IP address: 52.38.19.193  
+IP address: 52.26.53.67  
 
 Accessible SSH port: 2200  
 
-Application URL: [http://ec2-52-38-19-193.us-west-2.compute.amazonaws.com/](http://ec2-52-38-19-193.us-west-2.compute.amazonaws.com/)  
+Application URL: [http://ec2-52-26-53-67.us-west-2.compute.amazonaws.com/](http://ec2-52-26-53-67.us-west-2.compute.amazonaws.com/)  
 
 ## Configuration  
 
@@ -32,7 +32,7 @@ Launch personal Virtual Machine with personal Udacity Account
 
 4. Log into the Development environment
 
-        ssh -i ~/.ssh/udacity_key.rsa root@52.38.19.193
+        ssh -i ~/.ssh/udacity_key.rsa root@52.26.53.67
 
 #### Reference:
 [Udacity](https://www.udacity.com/account#!/development_environment)  
@@ -84,7 +84,7 @@ Launch personal Virtual Machine with personal Udacity Account
 
 5. log in with `grader`and ssh method  
 
-        ssh -i ~/.ssh/uda_id_rsa grader@52.38.19.193 -p 2200
+        ssh -i ~/.ssh/uda_id_rsa grader@52.26.53.67 -p 2200
 
 6. Disable remote login of the root user  
    Edit `/etc/ssh/sshd_config` file
@@ -204,9 +204,9 @@ Launch personal Virtual Machine with personal Udacity Account
    Add these content:  
 
         <VirtualHost *:80>  
-            ServerName 52.38.19.193  
+            ServerName 52.26.53.67  
             ServerAdmin webmaster@localhost  
-            ServerAlias ec2-52-38-19-193.us-west-2.compute.amazonaws.com  
+            ServerAlias ec2-52-26-53-67.us-west-2.compute.amazonaws.com  
             ErrorLog ${APACHE_LOG_DIR}/error.log  
             CustomLog ${APACHE_LOG_DIR}/access.log combined  
             #Include conf-available/serve-cgi-bin.conf  
@@ -256,9 +256,9 @@ Launch personal Virtual Machine with personal Udacity Account
 8. Some changes in python file:  
  - In the `__init__.py` change the client_secrets.json to absolute path  
 
-  - In Google developer console, add javascript origins  `http://ec2-52-38-19-193.us-west-2.compute.amazonaws.com/` and `http://52.38.19.193`  
+  - In Google developer console, add javascript origins  `http://ec2-52-26-53-67.us-west-2.compute.amazonaws.com/` and `http://52.26.53.67`  
 
-  - In Google developer console, add oauth2callback `http://ec2-52-38-19-193.us-west-2.compute.amazonaws.com/oauth2callback`  
+  - In Google developer console, add oauth2callback `http://ec2-52-26-53-67.us-west-2.compute.amazonaws.com/oauth2callback`  
 
 #### Reference:  
 [Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps)   
@@ -323,6 +323,6 @@ Launch personal Virtual Machine with personal Udacity Account
 
         sudo service apache2 restart  
 
-Now can visit the page thourgh <http://ec2-52-38-19-193.us-west-2.compute.amazonaws.com/>.  
+Now can visit the page thourgh <http://ec2-52-26-53-67.us-west-2.compute.amazonaws.com/>.  
 
 Refer to error log (`/var/log/apache2/`) for any error in running.  
