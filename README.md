@@ -74,13 +74,13 @@ Launch personal Virtual Machine with personal Udacity Account
 
    Edit configue file  
 
-		vim /etc/ssh/sshd-config
+		vim /etc/ssh/sshd_config
 
-   In hte file, change the `Port 22` to  `Port 2200`  
+   In the file, change the `Port 22` to  `Port 2200`  
 
    Restart ssh service  
 
-		service sshd restart
+		service sshd reload
 
 5. log in with `grader`and ssh method  
 
@@ -89,9 +89,13 @@ Launch personal Virtual Machine with personal Udacity Account
 6. Disable remote login of the root user  
    Edit `/etc/ssh/sshd_config` file
 
-        sudo vim /etc/ssh/sshd-config
+        sudo vim /etc/ssh/sshd_config
 
     In the file, change `PermitRootLogin without-password` to `PermitRootLogin no`.  
+    Restart ssh service  
+
+     service sshd reload
+
     Verify login with root will fails with "Permission denied", which means the root remote login is disabled.
 
 #### Reference:
@@ -179,7 +183,7 @@ Launch personal Virtual Machine with personal Udacity Account
 
 3. Make the `project.py` file name to `__init__.py`    
 
-4. Install pip , virtualenv (in /var/www/Catalog)  
+4. Install pip , virtualenv (in /var/www/CatalogApp)  
 
         sudo apt-get install python-pip
 
@@ -285,7 +289,7 @@ Launch personal Virtual Machine with personal Udacity Account
 5. Create a new role and grant the role to create database  
 
         CREATE ROLE catalog WITH CREATEDB;  
-        ALTER USER catalog WITH PASSWORD pass;  
+        ALTER USER catalog WITH PASSWORD 'pass';  
         ALTER USER catalog CREATEDB;  
 
    using `\du` can see the roles list  
