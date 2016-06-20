@@ -48,7 +48,7 @@ Launch personal Virtual Machine with personal Udacity Account
 
         vim /etc/sudoers.d/grader
 
-     In the file put in: `grader ALL=(ALL) NOPASSWD:ALL` Save and quit with `wq`.  
+     In the file put in: `grader ALL=(ALL) ALL` Save and quit with `wq`.  
 
 3. Configure to use ssh key for grader to log in.  
   In the Develop Environment, copy the folder of `/root/.ssh` to `/home/grader/`, then I can use the downloaded keys for `grader` also.
