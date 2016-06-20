@@ -319,9 +319,11 @@ Launch personal Virtual Machine with personal Udacity Account
 2. Edit the `__init__.py`, `lotsofitems.py` and `db_setup.py` file:  
  Change `engine = create_engine('sqlite:///categoryitems.db')` to `engine = create_engine('postgresql://catalog:pass@localhost/catalog')`  
 
-3. Install python-psycopg2  
+3. Install software packages  
 
         sudo apt-get install python-psycopg2  
+        sudo pip install sqlalchemy
+        sudo pip install Flask-SQLAlchemy
 
 4. Setup databse
 
