@@ -215,12 +215,12 @@ Launch personal Virtual Machine with personal Udacity Account
             CustomLog ${APACHE_LOG_DIR}/access.log combined  
             #Include conf-available/serve-cgi-bin.conf  
             WSGIScriptAlias / /var/www/CatalogApp/vagrant/catalog.wsgi  
-            <Directory /var/www/CatalogApp/vagrant/Catalog/>  
+            <Directory /var/www/CatalogApp/vagrant/catalog/>  
                 Order allow,deny  
                 Allow from all  
             </Directory>  
-            Alias /static /var/www/CatalogApp/vagrant/Catalog/static  
-            <Directory /var/www/CatalogApp/vagrant/Catalog/static/>  
+            Alias /static /var/www/CatalogApp/vagrant/catalog/static  
+            <Directory /var/www/CatalogApp/vagrant/catalog/static/>  
                 Order allow,deny  
                 Allow from all  
             </Directory>  
@@ -244,7 +244,7 @@ Launch personal Virtual Machine with personal Udacity Account
         logging.basicConfig(stream=sys.stderr)  
         sys.path.insert(0,"/var/www/CatalogApp/vagrant/")
 
-        from Catalog import app as application  
+        from codeatalog import app as application  
         application.secret_key = 'super_secret_key'  
         application.debut = True   
 
@@ -253,7 +253,7 @@ Launch personal Virtual Machine with personal Udacity Account
         CatalogApp  
         --vagrant  
         ----catalog.wsgi  
-        ----Catalog  
+        ----catalog  
         ------static  
         ------__init__.py  
 
@@ -288,7 +288,7 @@ Launch personal Virtual Machine with personal Udacity Account
 
 5. Create a new role and grant the role to create database  
 
-        CREATE ROLE catalog WITH CREATEDB;  
+        CREATE USER catalog WITH CREATEDB;  
         ALTER USER catalog WITH PASSWORD 'pass';  
         ALTER USER catalog CREATEDB;  
 
@@ -298,11 +298,11 @@ Launch personal Virtual Machine with personal Udacity Account
 
         CREATE DATABASE catalog WITH OWNER catalog;  
 
-7.  Connect to the database and lock down the permissions to only let "access_role" create tables  
+7.  Connect to the database and lock down the permissions to only let "catalog" create tables  
 
         \c catalog  
         REVOKE ALL ON SCHEMA public FROM public;  
-        GRANT ALL ON SCHEMA public TO access_role;  
+        GRANT ALL ON SCHEMA public TO catalog;  
 
    Finally press `Control`+`D` to quit  
 
@@ -314,16 +314,21 @@ Launch personal Virtual Machine with personal Udacity Account
 
 1. Go to the Catalog app directory  
 
-        cd /var/www/CatalogApp/vagrant/  
+        cd /var/www/CatalogApp/vagrant/catalog  
 
-2. Edit the `__init__.py`, `lotsofitems.py` and `database_setup.py` file:  
+2. Edit the `__init__.py`, `lotsofitems.py` and `db_setup.py` file:  
  Change `engine = create_engine('sqlite:///categoryitems.db')` to `engine = create_engine('postgresql://catalog:pass@localhost/catalog')`  
 
 3. Install python-psycopg2  
 
-        sudo apt-get install psysopg2  
+        sudo apt-get install python-psycopg2  
 
-4. Restart Apache   
+4. Setup databse
+
+        python db_setup.py
+        python lotsofitems.py
+
+5. Restart Apache   
 
         sudo service apache2 restart  
 
